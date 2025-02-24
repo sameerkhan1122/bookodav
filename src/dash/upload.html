@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css" />
+    <title>R2KO-DAV - Upload</title>
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>
+          <a class="contrast" href="/dash">
+            R2KO-DAV
+          </a>
+        </h1>
+        <nav>
+          <ul>
+            <li><a href="/dash">Home</a></li>
+            <li><a href="/dash/upload">Upload</a></li>
+            <li><a href="/dash/list">View Docs</a></li>
+            <li><a href="/dash/instructions">Instructions</a></li>
+          </ul>
+        </nav>
+      </header>
+      <section>
+        <h2>Upload Files</h2>
+        <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+          <label for="files">Select files to upload:</label>
+          <input type="file" id="files" name="files" required multiple
+                 accept=".epub,.pdf,.mobi,.cbr,.cbz,.jpg,.jpeg,.png,.gif,.webp">
+          <!-- Use type="button" to prevent native submission -->
+          <button type="button" id="uploadButton">Upload</button>
+        </form>
+        <div id="uploadStatus"></div>
+      </section>
+      <footer></footer>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('uploadForm');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const uploadButton = document.getElementById('uploadButton');
+
+        uploadButton.addEventListener('click', function(e) {
+          e.preventDefault();
+   
+          const formData = new FormData(form);
+
+          // Debug: Log each file selected
+          const files = document.getElementById('files').files;
+     
+
+          // Use XMLHttpRequest to submit the form data
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', form.action, true);
+
+          xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              console.log('Upload successful:', xhr.responseText);
+              uploadStatus.innerHTML = `<p>Upload successful!</p><pre>${xhr.responseText}</pre>`;
+            } else {
+              console.error('Upload failed:', xhr.statusText);
+              uploadStatus.innerHTML = `<p>Upload failed: ${xhr.statusText}</p>`;
+            }
+          };
+
+          xhr.onerror = function() {
+            console.error('An error occurred during the upload.');
+            uploadStatus.innerHTML = `<p>Error occurred during upload.</p>`;
+          };
+
+          xhr.send(formData);
+        });
+      });
+    </script>
+  </body>
+</html>
