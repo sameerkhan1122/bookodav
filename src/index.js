@@ -58,10 +58,10 @@ async function handleDeleteFile(request, env, ctx) {
 	try {
 		await env.MY_BUCKET.delete(filePath);
 
-		// fetch(new URL("/", request.url), { // Target the root path
-		// 	method: "PROPFIND",
-		// 	headers: { "X-Bypass-Cache": "true" },
-		// })
+		fetch(new URL("/", request.url), { // Target the root path
+			method: "PROPFIND",
+			headers: { "X-Bypass-Cache": "true" },
+		})
 
 		return new Response('File deleted successfully', { status: 200 });
 	} catch (error) {
@@ -89,10 +89,10 @@ async function handleMultpleUploads(request, env, ctx) {
 				results.push({ sanitizedFilename, status: "success", contentType });
 				//console.log(request.url)
 
-				// fetch(new URL("/", request.url), { // Target the root path
-				// 	method: "PROPFIND",
-				// 	headers: { "X-Bypass-Cache": "true" },
-				// })
+				fetch(new URL("/", request.url), { // Target the root path
+					method: "PROPFIND",
+					headers: { "X-Bypass-Cache": "true" },
+				})
 
 			} catch (error) {
 				//console.log("wtf");
@@ -132,19 +132,19 @@ async function handleFileList(request, env, ctx) {
 	const path = new URL(request.url).pathname;
 	const prefix = path === "/" ? "" : path.slice(1); // Handle root path
 
-	// const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
-	// const cache = caches.default;
-	// const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
+	const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
+	const cache = caches.default;
+	const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
 
-	// if (!bypassCache) {
-	// 	const cachedResponse = await cache.match(cacheKey);
-	// 	if (cachedResponse) {
-	// 		//console.log(`HIT`);
-	// 		return cachedResponse;
-	// 	}
+	if (!bypassCache) {
+		const cachedResponse = await cache.match(cacheKey);
+		if (cachedResponse) {
+			//console.log(`HIT`);
+			return cachedResponse;
+		}
 
-	// }
-	//console.log("MISS");
+	}
+	console.log("MISS");
 
 
 
@@ -192,7 +192,7 @@ async function handleFileList(request, env, ctx) {
 			"Cache-Control": "public, max-age=604800"
 		},
 	});
-//	ctx.waitUntil(cache.put(cacheKey, response.clone()));
+	ctx.waitUntil(cache.put(cacheKey, response.clone()));
 	return response;
 }
 
@@ -235,8 +235,7 @@ export default {
 				}
 			});
 		}
-		// Check if the request is authorized
-		if (path === '/') path = "/dash/instructions"
+
 		if (
 			path !== "/dash/instructions" &&
 			request.method !== "OPTIONS" &&
