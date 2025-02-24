@@ -131,7 +131,7 @@ async function handleFileList(request, env, ctx) {
 
 	const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
 	const cache = caches.default;
-	const cacheKey = new Request(request.url, { cf: { cacheTtl: 600 } });
+	const cacheKey = new Request(request.url, { cf: { cacheTtl: 2592000 } });
 
 	if (!bypassCache) {
 		const cachedResponse = await cache.match(cacheKey);
@@ -180,7 +180,7 @@ async function handleFileList(request, env, ctx) {
 		headers: {
 			...corsHeaders,
 			"Content-Type": "application/xml",
-			"Cache-Control": "public, max-age=600"
+			"Cache-Control": "public, max-age=2592000"
 		},
 	});
 	ctx.waitUntil(cache.put(cacheKey, response.clone()));
@@ -235,7 +235,7 @@ export default {
 			return new Response(handleUiRouting(path), {
 				headers: {
 					"Content-Type": "text/html",
-					"Cache-Control": "public, max-age=3600"
+					"Cache-Control": "public, max-age=32592000"
 				},
 			});
 
