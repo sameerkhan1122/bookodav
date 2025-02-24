@@ -57,12 +57,12 @@ async function handleDeleteFile(request, env, ctx) {
 	}
 	try {
 		await env.MY_BUCKET.delete(filePath);
-		ctx.waitUntil(
-			fetch(new URL("/", request.url), { // Target the root path
-				method: "PROPFIND",
-				headers: { "X-Bypass-Cache": "true" },
-			})
-		);
+
+		fetch(new URL("/", request.url), { // Target the root path
+			method: "PROPFIND",
+			headers: { "X-Bypass-Cache": "true" },
+		})
+
 		return new Response('File deleted successfully', { status: 200 });
 	} catch (error) {
 		return new Response('Failed to delete file', { status: 500 });
@@ -83,16 +83,17 @@ async function handleMultpleUploads(request, env, ctx) {
 			if (filename.includes("..")) { // Block path traversal
 				return new Response("Invalid path", { status: 400 });
 			}
-			if (!sanitizedFilename) return new Response("Invalid filename", {status: 400});
+			if (!sanitizedFilename) return new Response("Invalid filename", { status: 400 });
 			try {
 				await env.MY_BUCKET.put(sanitizedFilename, data, { httpMetadata: { contentType } });
 				results.push({ sanitizedFilename, status: "success", contentType });
-				ctx.waitUntil(
-					fetch(new URL("/", request.url), { // Target the root path
-						method: "PROPFIND",
-						headers: { "X-Bypass-Cache": "true" },
-					})
-				);
+				console.log(request.url)
+
+				fetch(new URL("/", request.url), { // Target the root path
+					method: "PROPFIND",
+					headers: { "X-Bypass-Cache": "true" },
+				})
+
 			} catch (error) {
 				//console.log("wtf");
 				results.push({ filename, status: "failed", error: error.message });
@@ -133,7 +134,7 @@ async function handleFileList(request, env, ctx) {
 
 	const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
 	const cache = caches.default;
-	const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800  } });
+	const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
 
 	if (!bypassCache) {
 		const cachedResponse = await cache.match(cacheKey);
@@ -141,10 +142,10 @@ async function handleFileList(request, env, ctx) {
 			console.log(`HIT`);
 			return cachedResponse;
 		}
-	
+
 	}
 	console.log("MISS");
-	
+
 
 
 
@@ -188,7 +189,7 @@ async function handleFileList(request, env, ctx) {
 		headers: {
 			...corsHeaders,
 			"Content-Type": "application/xml",
-			"Cache-Control": "public, max-age=604800" 
+			"Cache-Control": "public, max-age=604800"
 		},
 	});
 	ctx.waitUntil(cache.put(cacheKey, response.clone()));
@@ -216,24 +217,24 @@ export default {
 	async fetch(request, env, ctx) {
 		// Extract the Authorization header
 		const authorization_header = request.headers.get("Authorization") || "";
-	
+
 		const url = new URL(request.url);
 		let path = url.pathname;
 		if (request.method === "GET" && path === "/favicon.ico") {
 			// Fetch favicon from R2 bucket
 			const favicon = './favicon.ico'
-		  
+
 			if (!favicon) {
-			  return new Response("Favicon not found", { status: 404 });
+				return new Response("Favicon not found", { status: 404 });
 			}
-		  
+
 			return new Response(favicon.body, {
-			  headers: {
-				"Content-Type": "image/x-icon",
-				"Cache-Control": "public, max-age=604800" // 1 week
-			  }
+				headers: {
+					"Content-Type": "image/x-icon",
+					"Cache-Control": "public, max-age=604800" // 1 week
+				}
 			});
-		  }
+		}
 		// Check if the request is authorized
 		if (path === '/') path = "/dash/instructions"
 		if (
@@ -257,7 +258,7 @@ export default {
 			return new Response(handleUiRouting(path), {
 				headers: {
 					"Content-Type": "text/html",
-					"Cache-Control": "public, max-age=604800" 
+					"Cache-Control": "public, max-age=604800"
 				},
 			});
 
