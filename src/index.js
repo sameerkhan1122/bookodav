@@ -32,31 +32,43 @@ const corsHeaders = {
 	"Access-Control-Allow-Headers": "Authorization, Depth, Content-Type",
 };
 
-function is_authorized(authorization_header, username, password) {
-	// Extract the Base64-encoded part of the header
-	const encodedCredentials = authorization_header.replace("Basic ", "");
-	// Decode the credentials
-	const decodedCredentials = atob(encodedCredentials);
-	// Split into username and password
-	const [providedUsername, providedPassword] = decodedCredentials.split(":");
+async function is_authorized(authorization_header, username, password) {
+	const encoder = new TextEncoder();
 
-	// Compare with expected values
-	return providedUsername === username && providedPassword === password;
+	const header = encoder.encode(authorization_header);
+
+	const expected = encoder.encode(`Basic ${btoa(`${username}:${password}`)}`);
+
+	if (header.byteLength !== expected.byteLength) {
+		return false; // Length mismatch
+	}
+
+	return await crypto.subtle.timingSafeEqual(header, expected)
+
 }
 
-async function handleDeleteFile(request, env) {
+async function handleDeleteFile(request, env, ctx) {
 	const url = new URL(request.url);
-	const filePath = decodeURIComponent(url.pathname.slice(1)); // Remove leading slash
 
+	const filePath = decodeURIComponent(url.pathname.slice(1)); // Remove leading slash
+	if (filePath.includes("..")) {
+		return new Response("Invalid path", { status: 400 });
+	}
 	try {
 		await env.MY_BUCKET.delete(filePath);
+		ctx.waitUntil(
+			fetch(new URL("/", request.url), { // Target the root path
+				method: "PROPFIND",
+				headers: { "X-Bypass-Cache": "true" },
+			})
+		);
 		return new Response('File deleted successfully', { status: 200 });
 	} catch (error) {
 		return new Response('Failed to delete file', { status: 500 });
 	}
 }
 
-async function handleMultpleUploads(request, env) {
+async function handleMultpleUploads(request, env, ctx) {
 	const formData = await request.formData();
 	const results = [];
 	for (const entry of formData.entries()) {
@@ -66,10 +78,19 @@ async function handleMultpleUploads(request, env) {
 			const extension = filename.split(".").pop().toLowerCase();
 			const contentType = mimeTypes[extension] || mimeTypes.default;
 			const data = await file.arrayBuffer();
-
+			const sanitizedFilename = filename.replace(/[^a-zA-Z0-9\-_.]/g, ""); //Sanitize filenames to prevent path traversal attacks.
+			if (filename.includes("..")) { // Block path traversal
+				return new Response("Invalid path", { status: 400 });
+			}
 			try {
-				await env.MY_BUCKET.put(filename, data, { httpMetadata: { contentType } });
-				results.push({ filename, status: "success", contentType });
+				await env.MY_BUCKET.put(sanitizedFilename, data, { httpMetadata: { contentType } });
+				results.push({ sanitizedFilename, status: "success", contentType });
+				ctx.waitUntil(
+					fetch(new URL("/", request.url), { // Target the root path
+						method: "PROPFIND",
+						headers: { "X-Bypass-Cache": "true" },
+					})
+				);
 			} catch (error) {
 				console.log("wtf");
 				results.push({ filename, status: "failed", error: error.message });
@@ -103,14 +124,25 @@ async function handleGetFile(request, env) {
 	});
 }
 
-async function handleFileList(request, env) {
+async function handleFileList(request, env, ctx) {
 	// Handle directory listing (WebDAV-specific)
 	const path = new URL(request.url).pathname;
 	const prefix = path === "/" ? "" : path.slice(1); // Handle root path
 
+	const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
+	const cache = caches.default;
+	const cacheKey = new Request(request.url, { cf: { cacheTtl: 600 } });
+
+	if (!bypassCache) {
+		const cachedResponse = await cache.match(cacheKey);
+		if (cachedResponse) {
+			return cachedResponse;
+		}
+	}
+
 	// List objects in R2 with the correct prefix
 	const objects = await env.MY_BUCKET.list({ prefix });
-	
+
 	// Generate WebDAV XML response
 	const xmlResponse = `
 	  <D:multistatus xmlns:D="DAV:">
@@ -144,9 +176,15 @@ async function handleFileList(request, env) {
 	  </D:multistatus>
 	`;
 
-	return new Response(xmlResponse, {
-		headers: { "Content-Type": "application/xml" },
+	const response = new Response(xmlResponse, {
+		headers: {
+			...corsHeaders,
+			"Content-Type": "application/xml",
+			"Cache-Control": "public, max-age=600"
+		},
 	});
+	ctx.waitUntil(cache.put(cacheKey, response.clone()));
+	return response;
 }
 
 
@@ -175,11 +213,11 @@ export default {
 		let path = url.pathname;
 
 		// Check if the request is authorized
-		if(path === '/') path ="/dash/instructions"
+		if (path === '/') path = "/dash/instructions"
 		if (
 			path !== "/dash/instructions" &&
 			request.method !== "OPTIONS" &&
-			!is_authorized(authorization_header, env.USERNAME, env.PASSWORD)
+			!(await is_authorized(authorization_header, env.USERNAME, env.PASSWORD))
 		) {
 			// Return 401 Unauthorized if credentials are invalid
 			return new Response("Unauthorized", {
@@ -202,20 +240,20 @@ export default {
 			});
 
 		}
-		
+
 		if (request.method === 'DELETE') {
-			return handleDeleteFile(request, env);
+			return handleDeleteFile(request, env, ctx);
 		}
 
 		// Upload multiple files via POST /upload
 		if (request.method === "POST" && path === "/upload") {
-			return handleMultpleUploads(request, env)
+			return handleMultpleUploads(request, env, ctx)
 		}
 		if (request.method === "GET") {
-			return handleGetFile(request, env)
+			return handleGetFile(request, env, ctx)
 		}
 		if (request.method === "PROPFIND") {
-			return handleFileList(request, env)
+			return handleFileList(request, env, ctx)
 		}
 		return new Response("Method not allowed", { status: 405, headers: corsHeaders });
 	},
