@@ -1,9 +1,9 @@
 
-import html from '../src/dash/index.html'
-import upload from '../src/dash/upload.html'
-import list from '../src/dash/list.html'
-import instructions from '../src/dash/wiki.html'
-import notfoundpage from '../src/dash/404.html'
+import html from '../src/public/dash/index.html'
+import upload from '../src/public/dash/upload.html'
+import list from '../src/public/dash/list.html'
+import instructions from '../src/public/dash/wiki.html'
+import notfoundpage from '../src/public/dash/404.html'
 // MIME type mapping based on file extensions
 const mimeTypes = {
 	// Text & Books
