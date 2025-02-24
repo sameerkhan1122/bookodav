@@ -3,6 +3,7 @@ import html from '../src/dash/index.html'
 import upload from '../src/dash/upload.html'
 import list from '../src/dash/list.html'
 import instructions from '../src/dash/wiki.html'
+import notfoundpage from '../src/dash/404.html'
 // MIME type mapping based on file extensions
 const mimeTypes = {
 	// Text & Books
@@ -23,7 +24,7 @@ const mimeTypes = {
 	default: "application/octet-stream",
 };
 
-const AUTH_REALM = 'r2ko-dav';
+const AUTH_REALM = 'BOOKO-DAV';
 
 // Handle WebDAV requests (e.g., GET, PUT, PROPFIND)
 const corsHeaders = {
@@ -82,6 +83,7 @@ async function handleMultpleUploads(request, env, ctx) {
 			if (filename.includes("..")) { // Block path traversal
 				return new Response("Invalid path", { status: 400 });
 			}
+			if (!sanitizedFilename) return new Response("Invalid filename", {status: 400});
 			try {
 				await env.MY_BUCKET.put(sanitizedFilename, data, { httpMetadata: { contentType } });
 				results.push({ sanitizedFilename, status: "success", contentType });
@@ -92,7 +94,7 @@ async function handleMultpleUploads(request, env, ctx) {
 					})
 				);
 			} catch (error) {
-				console.log("wtf");
+				//console.log("wtf");
 				results.push({ filename, status: "failed", error: error.message });
 			}
 		}
@@ -131,14 +133,20 @@ async function handleFileList(request, env, ctx) {
 
 	const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
 	const cache = caches.default;
-	const cacheKey = new Request(request.url, { cf: { cacheTtl: 2592000 } });
+	const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800  } });
 
 	if (!bypassCache) {
 		const cachedResponse = await cache.match(cacheKey);
 		if (cachedResponse) {
+			console.log(`HIT`);
 			return cachedResponse;
 		}
+	
 	}
+	console.log("MISS");
+	
+
+
 
 	// List objects in R2 with the correct prefix
 	const objects = await env.MY_BUCKET.list({ prefix });
@@ -180,7 +188,7 @@ async function handleFileList(request, env, ctx) {
 		headers: {
 			...corsHeaders,
 			"Content-Type": "application/xml",
-			"Cache-Control": "public, max-age=2592000"
+			"Cache-Control": "public, max-age=604800" 
 		},
 	});
 	ctx.waitUntil(cache.put(cacheKey, response.clone()));
@@ -200,7 +208,7 @@ function handleUiRouting(path) {
 		case "/dash/instructions": // 👈 New route
 			return instructions;
 		default:
-			break;
+			return notfoundpage;
 	}
 }
 
@@ -208,10 +216,24 @@ export default {
 	async fetch(request, env, ctx) {
 		// Extract the Authorization header
 		const authorization_header = request.headers.get("Authorization") || "";
-
+	
 		const url = new URL(request.url);
 		let path = url.pathname;
-
+		if (request.method === "GET" && path === "/favicon.ico") {
+			// Fetch favicon from R2 bucket
+			const favicon = './favicon.ico'
+		  
+			if (!favicon) {
+			  return new Response("Favicon not found", { status: 404 });
+			}
+		  
+			return new Response(favicon.body, {
+			  headers: {
+				"Content-Type": "image/x-icon",
+				"Cache-Control": "public, max-age=604800" // 1 week
+			  }
+			});
+		  }
 		// Check if the request is authorized
 		if (path === '/') path = "/dash/instructions"
 		if (
@@ -235,7 +257,7 @@ export default {
 			return new Response(handleUiRouting(path), {
 				headers: {
 					"Content-Type": "text/html",
-					"Cache-Control": "public, max-age=32592000"
+					"Cache-Control": "public, max-age=604800" 
 				},
 			});
 
