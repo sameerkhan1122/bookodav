@@ -112,8 +112,18 @@ async function handleMultpleUploads(request, env, ctx) {
 }
 
 async function handleGetFile(request, env) {
-	const path = new URL(request.url).pathname;
+	let path = new URL(request.url).pathname;
 	const filename = decodeURIComponent(path.slice(1));
+	if(path === '/'){
+		path = '/dash'
+		return new Response(handleUiRouting(path), {
+			headers: {
+				"Content-Type": "text/html",
+				"Cache-Control": "public, max-age=604800"
+			},
+		});
+
+	}
 	const file = await env.MY_BUCKET.get(filename);
 
 	if (file === null) {
@@ -132,12 +142,39 @@ async function handleGetFile(request, env) {
 	});
 }
 
+async function handlePutFile(request, env, ctx) {
+	const url = new URL(request.url)
+	const filePath = decodeURIComponent(url.pathname)
+	if (filePath.includes("..")) {
+		return new Response("Invalid path", { status: 400 });
+	}
+	try {
+		// Read the file data from the request body
+		const data = await request.arrayBuffer();
+		const extension = filePath.split(".").pop().toLowerCase();
+		const contentType = mimeTypes[extension] || mimeTypes.default;
+
+		// Upload the file to R2 with the given filePath as the key
+		await env.MY_BUCKET.put(filePath, data, { httpMetadata: { contentType } });
+
+		// Optionally, invalidate any cached directory listings that might include this file.
+		const cache = caches.default;
+		const listingUrl = new URL("/", request.url).toString();
+		const cacheKey = new Request(listingUrl, { cf: { cacheTtl: 604800 } });
+		ctx.waitUntil(cache.delete(cacheKey));
+
+		return new Response("File uploaded successfully", { status: 200 });
+	} catch (error) {
+		return new Response("Failed to upload file", { status: 500 });
+	}
+}
+
 async function handleFileList(request, env, ctx) {
 	// Handle directory listing (WebDAV-specific)
 	const path = new URL(request.url).pathname;
 	const prefix = path === "/" ? "" : path.slice(1); // Handle root path
 
-	 const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
+	const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
 	const cache = caches.default;
 	const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
 
@@ -149,11 +186,7 @@ async function handleFileList(request, env, ctx) {
 		}
 
 	}
-	 console.log("MISS");
-
-
-
-
+	console.log("MISS");
 	// List objects in R2 with the correct prefix
 	const objects = await env.MY_BUCKET.list({ prefix });
 
@@ -266,6 +299,10 @@ export default {
 				},
 			});
 
+		}
+
+		if (request.method === "PUT") {
+			return handlePutFile(request, env, ctx)
 		}
 
 		if (request.method === 'DELETE') {
