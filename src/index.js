@@ -58,10 +58,16 @@ async function handleDeleteFile(request, env, ctx) {
 	try {
 		await env.MY_BUCKET.delete(filePath);
 
-		// fetch(new URL("/", request.url), { // Target the root path
-		// 	method: "PROPFIND",
-		// 	headers: { "X-Bypass-Cache": "true" },
-		// })
+		let dir = "/";
+		if (filePath.includes("/")) {
+			const idx = filePath.lastIndexOf("/");
+			dir = idx > 0 ? "/" + filePath.substring(0, idx) : "/";
+		}
+
+		const listingUrl = new URL(dir, url.origin).toString();
+		const cache = caches.default;
+		const cacheKey = new Request(listingUrl, { cf: { cacheTtl: 604800 } });
+		ctx.waitUntil(cache.delete(cacheKey));
 
 		return new Response('File deleted successfully', { status: 200 });
 	} catch (error) {
@@ -89,10 +95,9 @@ async function handleMultpleUploads(request, env, ctx) {
 				results.push({ sanitizedFilename, status: "success", contentType });
 				//console.log(request.url)
 
-				// fetch(new URL("/", request.url), { // Target the root path
-				// 	method: "PROPFIND",
-				// 	headers: { "X-Bypass-Cache": "true" },
-				// })
+				const cache = caches.default;
+				const cacheKey = new Request(new URL("/", request.url).toString(), { cf: { cacheTtl: 604800 } });
+				ctx.waitUntil(cache.delete(cacheKey));
 
 			} catch (error) {
 				//console.log("wtf");
@@ -132,19 +137,19 @@ async function handleFileList(request, env, ctx) {
 	const path = new URL(request.url).pathname;
 	const prefix = path === "/" ? "" : path.slice(1); // Handle root path
 
-	// const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
-	// const cache = caches.default;
-	// const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
+	 const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
+	const cache = caches.default;
+	const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
 
-	// if (!bypassCache) {
-	// 	const cachedResponse = await cache.match(cacheKey);
-	// 	if (cachedResponse) {
-	// 		//console.log(`HIT`);
-	// 		return cachedResponse;
-	// 	}
+	if (!bypassCache) {
+		const cachedResponse = await cache.match(cacheKey);
+		if (cachedResponse) {
+			console.log(`HIT`);
+			return cachedResponse;
+		}
 
-	// }
-	// console.log("MISS");
+	}
+	 console.log("MISS");
 
 
 
@@ -192,7 +197,7 @@ async function handleFileList(request, env, ctx) {
 			"Cache-Control": "public, max-age=604800"
 		},
 	});
-	//ctx.waitUntil(cache.put(cacheKey, response.clone()));
+	ctx.waitUntil(cache.put(cacheKey, response.clone()));
 	return response;
 }
 
