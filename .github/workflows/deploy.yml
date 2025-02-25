@@ -15,7 +15,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          password: ${{ secrets.PASSWORD }}
-          username: ${{ secrets.USERNAME }}
-          # Optional: Add if your project needs a build step
-          # command: npm run build
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
