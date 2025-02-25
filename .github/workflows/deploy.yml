@@ -1,0 +1,21 @@
+name: Deploy Worker
+on:
+  push:
+    branches: [ "main" ] # Trigger on pushes to main branch
+  pull_request:
+  repository_dispatch: # Allow manual triggers via API
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@3.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          password: ${{ secrets.PASSWORD }}
+          username: ${{ secrets.USERNAME }}
+          # Optional: Add if your project needs a build step
+          # command: npm run build
