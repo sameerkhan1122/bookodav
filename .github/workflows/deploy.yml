@@ -1,20 +1,34 @@
 name: Deploy Worker
 on:
   push:
-    branches: [ "master" ] # Trigger on pushes to main branch
+    branches: [ "master" ]
   pull_request:
-  repository_dispatch: # Allow manual triggers via API
+  repository_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          
+      - name: Install dependencies
+        run: npm install
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@3.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: deploy --minify src/index.js
+          environment: production
+          secrets: |
+            USERNAME
+            PASSWORD
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
