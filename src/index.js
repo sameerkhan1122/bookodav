@@ -144,16 +144,19 @@ async function handleGetFile(request, env) {
 
 async function handlePutFile(request, env, ctx) {
 	const url = new URL(request.url)
-	const filePath = decodeURIComponent(url.pathname)
+	let filePath = decodeURIComponent(url.pathname)
+
 	if (filePath.includes("..")) {
 		return new Response("Invalid path", { status: 400 });
 	}
+	if (filePath.charAt(0) == "/") filePath = filePath.substring(1)
 	try {
 		// Read the file data from the request body
 		const data = await request.arrayBuffer();
 		const extension = filePath.split(".").pop().toLowerCase();
 		const contentType = mimeTypes[extension] || mimeTypes.default;
 
+			
 		// Upload the file to R2 with the given filePath as the key
 		await env.MY_BUCKET.put(filePath, data, { httpMetadata: { contentType } });
 
