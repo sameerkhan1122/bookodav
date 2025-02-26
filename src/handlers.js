@@ -95,31 +95,33 @@ export async function handleGetFile(request, env) {
 }
 
 export async function handlePutFile(request, env, ctx) {
-    const url = new URL(request.url)
-    let filePath = decodeURIComponent(url.pathname)
+    const url = new URL(request.url);
+    let filePath = decodeURIComponent(url.pathname);
 
-    if (filePath.includes("..")) {
+    if (filePath.includes("..") || filePath.trim() === "") {
         return new Response("Invalid path", { status: 400 });
     }
-    if (filePath.charAt(0) == "/") filePath = filePath.substring(1)
+
+    filePath = filePath.replace(/^\/+/, ""); // Remove all leading slashes
+
     try {
         // Read the file data from the request body
         const data = await request.arrayBuffer();
         const extension = filePath.split(".").pop().toLowerCase();
-        const contentType = mimeTypes[extension] || mimeTypes.default;
+        const contentType = mimeTypes[extension] || "application/octet-stream"; // Fallback MIME type
 
-            
         // Upload the file to R2 with the given filePath as the key
         await env.MY_BUCKET.put(filePath, data, { httpMetadata: { contentType } });
 
-        // Optionally, invalidate any cached directory listings that might include this file.
+        // Invalidate cache (ensure cache deletion works)
         const cache = caches.default;
         const listingUrl = new URL("/", request.url).toString();
-        const cacheKey = new Request(listingUrl, { cf: { cacheTtl: 604800 } });
+        const cacheKey = new Request(listingUrl);
         ctx.waitUntil(cache.delete(cacheKey));
 
         return new Response("File uploaded successfully", { status: 200 });
     } catch (error) {
+        console.error("Upload error:", error);
         return new Response("Failed to upload file", { status: 500 });
     }
 }
