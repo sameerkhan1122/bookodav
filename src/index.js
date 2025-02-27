@@ -15,7 +15,7 @@ const AUTH_REALM = 'BOOKO-DAV';
 function handleUiRouting(path) {
 
 	switch (path) {
-		case "/dash":
+		case "/":
 			return html
 		case "/dash/upload":
 			return upload
@@ -54,7 +54,6 @@ export default {
 
 		if (request.method === "GET" && path === "/") {
 			// Fetch favicon from R2 bucket
-			path = "/dash"
 			return new Response(handleUiRouting(path), {
 				headers: {
 					"Content-Type": "text/html",
@@ -64,7 +63,6 @@ export default {
 		}
 
 		if (
-			path !== "/dash/instructions" &&
 			request.method !== "OPTIONS" &&
 			!(await is_authorized(authorization_header, env.USERNAME, env.PASSWORD))
 		) {

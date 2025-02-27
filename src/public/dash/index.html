@@ -4,74 +4,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css" />
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
   <title>BOOKO-DAV</title>
 </head>
 
 <body>
+  <header class="container">
+    <nav>
+      <ul class="contrast">
+        <li><strong>BOOKO-DAV</strong></li>
+      </ul>
+      <ul>
+        <li>
+          <small>
+            <a href="https://joshuarodrigues.dev">joshuarodrigues.dev</a>
+          </small>
+        </li>
+      </ul>
+    </nav>
+  </header>
   <main class="container">
-
-    <header>
-      <nav>
-        <ul>
-
-          <a class="contrast" href="/dash">
-            BOOKO-DAV
-          </a>
-
-        </ul>
-        <ul>
-          <li><a href="/dash">Home</a></li>
-          <li><a href="/dash/upload">Upload</a></li>
-          <li><a href="/dash/list">View Docs</a></li>
-          <li><a href="/dash/instructions">Instructions</a></li>
-        </ul>
-      </nav>
-    </header>
-    <section>
+    <article>
       <h3>
         What is this ?
       </h3>
-    </section>
-    <section>
+      <p>
+        booko-dav is a play on "books", "koreader" and "webDAV".
+      </p>
+      <p>
+        It is primarily designed to be a webDav to transfer and store books
+        between your pc, phone, and ereader. (in my case a jailbroken kindle). It is selfhostable and <strong> MOSTLY
+          FREE</strong>
+        <em>(10GB to be exact)</em>. <a href="">See Pricing</a>.
+      </p>
+      <p>
+        Bookodav is a self hostable webDAV server. It uses cloudflare workers to archive this,
+        <a target="_blank" href="https://developers.cloudflare.com/workers/reference/how-workers-works/"> its a pretty
+          cool tech if
+          you
+          want to read about it.</a>
+      </p>
+
+    </article>
+
+    <article>
+
       <h3>
         Why is this ?
       </h3>
-    </section>
-    <section>
+      <p>
+        For fun, there are more webDAVs out there, I just wanted to add my own version, I also wanted this geared to
+        the ebook community, and to be easy to deploy and cheap to use.
+      </p>
+
+    </article>
+    <article>
+
       <h3>
         How to this ?
       </h3>
-    </section>
-    <section>
+      <p>
+
+      </p>
+
+    </article>
+    <article>
       <h3>
         Important links
       </h3>
-      <article>
-        <a target="_blank" href="http://dash.cloudflare.com">Cloudflare Dashboard</a>
-        <p>Check it whenever you can, monitor your stored size, requests, payments etc.</p>
-        <p>Also prefer using it over this sites view docs table, view docs is provided as a convinience.</p>
-      </article>
-      <article>
-        <a target="_blank" href="https://developers.cloudflare.com/r2/pricing/">Cloudflare r2 pricing</a>
-        <p>R2 is the storage where everying thing you send gets stored. YOU GET ONLY 10GB FREE</p>
-        <p>Bookodav does heavy caching in order to mitigate bills. Every list call on your device is cached for a week,
-          unless you upload a new file or delete a file.</p>
-        <p>This can sometimes cause inconsistencies, but I find it very minimal</p>
-        <p>Do not that r2 on its own is very cheap, and even without the cache it is very unlikly you will exhaust it
-          with just ebooks</p>
-      </article>
-      <article>
-        <a target="_blank" href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare workers
-          pricing</a>
-        <p>Workers are essential the computers that go back and forth from your database and devide</p>
-        <p>These are also quire cheap with 100,000 per day, so you fet to make 100,000 requests per day, upload download
-          delete and view all count as requets</p>
-        <p>Again very unlikly you will exhaust this single handedly</p>
-      </article>
+      <ol>
 
-    </section>
+
+        <li>
+          <a target="_blank" href="http://dash.cloudflare.com">Cloudflare Dashboard</a>
+          <p>Check it whenever you can, monitor your stored size, requests, payments etc.</p>
+          <p>Also prefer using it over this sites view docs table, view docs is provided as a convinience.</p>
+        </li>
+        <li>
+          <a target="_blank" href="https://developers.cloudflare.com/r2/pricing/">Cloudflare r2 pricing</a>
+          <p>R2 is the storage where everying thing you send gets stored. YOU GET ONLY 10GB FREE</p>
+          <p>Bookodav does heavy caching in order to mitigate bills. Every list call on your device is cached for a
+            week,
+            unless you upload a new file or delete a file.</p>
+          <p>This can sometimes cause inconsistencies, but I find it very minimal</p>
+          <p>Do not that r2 on its own is very cheap, and even without the cache it is very unlikly you will exhaust it
+            with just ebooks</p>
+        </li>
+        <li>
+          <a target="_blank" href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare workers
+            pricing</a>
+          <p>Workers are essential the computers that go back and forth from your database and devide</p>
+          <p>These are also quire cheap with 100,000 per day, so you fet to make 100,000 requests per day, upload
+            download
+            delete and view all count as requets</p>
+          <p>Again very unlikly you will exhaust this single handedly</p>
+        </li>
+      </ol>
+    </article>
 
     <footer>
       &copy; Joshua Rodrigues
