@@ -5,7 +5,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="description" content="A self-hosted WebDav server to transfer books between koreader and other clients.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
+  <style>
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      a {
+        img {
+          width: 64px;
+        }
+      }
+    }
+  </style>
   <title>BOOKO-DAV</title>
 </head>
 
@@ -30,16 +44,17 @@
         What is this ?
       </h3>
       <p>
-        booko-dav is a play on "books", "koreader" and "webDAV".
+        booko-dav is a play on "books",
+        <a href="https://koreader.rocks/" target="_blank">"koreader"</a>  and <a href="https://en.wikipedia.org/wiki/WebDAV"> "WebDAV"</a>.
       </p>
       <p>
-        It is primarily designed to be a webDav to transfer and store books
+        It is primarily designed to be a WebDAV to transfer and store books
         between your pc, phone, and ereader. (in my case a jailbroken kindle). It is selfhostable and <strong> MOSTLY
           FREE</strong>
         <em>(10GB to be exact)</em>. <a href="">See Pricing</a>.
       </p>
       <p>
-        Bookodav is a self hostable webDAV server. It uses cloudflare workers to archive this,
+        Bookodav is a self hostable WebDAV server. It uses cloudflare workers to archive this,
         <a target="_blank" href="https://developers.cloudflare.com/workers/reference/how-workers-works/"> its a pretty
           cool tech if
           you
@@ -54,7 +69,7 @@
         Why is this ?
       </h3>
       <p>
-        For fun, there are more webDAVs out there, I just wanted to add my own version, I also wanted this geared to
+        For fun, there are more WebDAVs out there, I just wanted to add my own version, I also wanted this geared to
         the ebook community, and to be easy to deploy and cheap to use.
       </p>
 
@@ -104,9 +119,21 @@
     </article>
 
     <footer>
-      &copy; Joshua Rodrigues
+      <span>
+        <span id="year"></span> &copy; Joshua Rodrigues
+
+      </span>
+      <a href="https://html5.validator.nu/?doc=https%3A%2F%2Fbookodav.joshuarodrigues.dev">
+        <img src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
+          alt="HTML5 Valid" />
+      </a>
     </footer>
   </main>
+  <script>
+    const yearElement = document.querySelector("#year")
+    const year = new Date().getFullYear()
+    yearElement.innerHTML = year
+  </script>
 </body>
 
 </html>
