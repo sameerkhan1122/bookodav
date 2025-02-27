@@ -11,17 +11,16 @@
 
 <body>
   <main class="container">
+
     <header>
-      <h1>
-        <a class="contrast" href="/dash">
-          BOOKO-DAV
-        </a>
-      </h1>
-
-    </header>
-
-    <section>
       <nav>
+        <ul>
+
+          <a class="contrast" href="/dash">
+            BOOKO-DAV
+          </a>
+
+        </ul>
         <ul>
           <li><a href="/dash">Home</a></li>
           <li><a href="/dash/upload">Upload</a></li>
@@ -29,7 +28,51 @@
           <li><a href="/dash/instructions">Instructions</a></li>
         </ul>
       </nav>
+    </header>
+    <section>
+      <h3>
+        What is this ?
+      </h3>
     </section>
+    <section>
+      <h3>
+        Why is this ?
+      </h3>
+    </section>
+    <section>
+      <h3>
+        How to this ?
+      </h3>
+    </section>
+    <section>
+      <h3>
+        Important links
+      </h3>
+      <article>
+        <a target="_blank" href="http://dash.cloudflare.com">Cloudflare Dashboard</a>
+        <p>Check it whenever you can, monitor your stored size, requests, payments etc.</p>
+        <p>Also prefer using it over this sites view docs table, view docs is provided as a convinience.</p>
+      </article>
+      <article>
+        <a target="_blank" href="https://developers.cloudflare.com/r2/pricing/">Cloudflare r2 pricing</a>
+        <p>R2 is the storage where everying thing you send gets stored. YOU GET ONLY 10GB FREE</p>
+        <p>Bookodav does heavy caching in order to mitigate bills. Every list call on your device is cached for a week,
+          unless you upload a new file or delete a file.</p>
+        <p>This can sometimes cause inconsistencies, but I find it very minimal</p>
+        <p>Do not that r2 on its own is very cheap, and even without the cache it is very unlikly you will exhaust it
+          with just ebooks</p>
+      </article>
+      <article>
+        <a target="_blank" href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare workers
+          pricing</a>
+        <p>Workers are essential the computers that go back and forth from your database and devide</p>
+        <p>These are also quire cheap with 100,000 per day, so you fet to make 100,000 requests per day, upload download
+          delete and view all count as requets</p>
+        <p>Again very unlikly you will exhaust this single handedly</p>
+      </article>
+
+    </section>
+
     <footer>
       &copy; Joshua Rodrigues
     </footer>

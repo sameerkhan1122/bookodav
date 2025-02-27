@@ -52,6 +52,17 @@ export default {
 			});
 		}
 
+		if (request.method === "GET" && path === "/") {
+			// Fetch favicon from R2 bucket
+			path = "/dash"
+			return new Response(handleUiRouting(path), {
+				headers: {
+					"Content-Type": "text/html",
+					"Cache-Control": "public, max-age=604800"
+				},
+			});
+		}
+
 		if (
 			path !== "/dash/instructions" &&
 			request.method !== "OPTIONS" &&
