@@ -74,28 +74,112 @@
 
     </article>
     <article>
-
       <h3>
         How to this ?
       </h3>
-
       <h4>
-        Requirements
+        Requirements =&gt; a cloudflare account, a github account, a mobile or pc and a credit card.
       </h4>
+      <p>
+        <em>* Note all the links below will open in a new tab for convinience *</em>
+      </p>
       <ol>
         <li>
-          cloudflare account
+          <h5>
+            set up cloudflare account
+          </h5>
+          <ul>
+            <li>
+              go to <a href="https://dash.cloudflare.com/login" target="_blank">cloudflare dash</a> and make an account,
+              you can use google sign in too.
+              If you already have an account, login.
+            </li>
+            <li>
+              next in you dashboard in the sidebar, go to <strong>R2 Object Storage</strong> . on the right hand side
+              click on <strong>+ Create Bucket</strong>
+            </li>
+            <li>
+              <strong>name your bucket <u> bookodav</u> </strong> (case sensitive)
+            </li>
+            <li>
+              leave the other options as default and click create bucket. Congratulations you have a storage system !
+            </li>
+            <li>
+              Now in the top right corner head over to profile and then api tokens, or just click this link
+              <a target="_blank" href="https://dash.cloudflare.com/profile/api-tokens">set up profile apis</a>
+            </li>
+            <li>
+              click on <strong><u>Create Token</u></strong> and select Use Template near <strong>Edit Cloudflare
+                Workers</strong>.
+            </li>
+            <li>
+              This will take you to a new page, leave everything unchanged. Just select your account in the drop down
+              for Account Resources and All Zones under Zone Resources
+            </li>
+            <li>
+              Click continue to summary. and then Create token. This will create a token which you need to copy and save
+              for now.
+            </li>
+          </ul>
         </li>
         <li>
-          github account
+          <h5>
+            github account
+          </h5>
+          <ul>
+            <li>
+              create or login to your <a target="_blank" href="https://github.com/">github account</a>
+            </li>
+            <li> Once logged in
+              <a target="_blank" href="https://github.com/Joshuajrodrigues/bookodav">
+                head on to my github
+              </a>
+            </li>
+            <li>
+              Click on the deploy with workers button.
+            </li>
+            <li>
+              This will open up the deploy interface, click on Authorize Workers.
+            </li>
+            <li>
+             Click on I have an account
+            </li>
+            <li>
+              Paste in your Account ID and API Token from earlier. And say connect account
+            </li>
+            <li>
+              Fork repository and then click on enable workflow. If prompted, click on I understand my workflows, go ahead and enable them.
+            </li>
+            <li>
+              Last step, with work flows enabled, click on deploy. If everything went well, this should trigger a auto deploy.
+            </li>
+            <li>
+              If not, head on the actions tab of your bookodav github repo, on the left hand side, click on Deploy, and then on the right Run Workflow -&gt; Run Workflow
+            </li>
+          </ul>
         </li>
         <li>
-          credit card
+          <h5>Access</h5>
+          <ul>
+            <li>
+              Back on your <a href="https://dash.cloudflare.com/login" target="_blank">cloudflare dash</a> Go to Compute in the sidebar.
+            </li>
+            <li>
+              You'll find <b>bookodav-worker</b> already created for you.
+            </li>
+            <li>
+              Click on it and go to settings, under Variables and Secrets add your password and username value. and click deploy.
+            </li>
+            <li>
+              Under Domains &amp; Routes look for "workers.dev" this is your access url
+            </li>
+            <li>
+              Go to "bookodav-worker.yourusernamemaybe.workers.dev/dav". When you upload or go to view docs tab, you will be asked to enter your password and username.
+            </li>
+          </ul>
         </li>
       </ol>
-      <a target="_blank" href="https://github.com/Joshuajrodrigues/bookodav">
-        Head on to my github
-      </a>
+
 
     </article>
     <article>
