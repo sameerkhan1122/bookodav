@@ -67,7 +67,7 @@ export async function handleGetFile(request, env) {
     let path = new URL(request.url).pathname;
     const filename = decodeURIComponent(path.slice(1));
     if(path === '/'){
-        path = '/dash'
+        path = '/dav'
         return new Response(handleUiRouting(path), {
             headers: {
                 "Content-Type": "text/html",

@@ -1,28 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css" />
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
+    <style>
+        .footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+    
+        .w3c {
+          width: 64px;
+        }
+      </style>
     <title>BOOKO-DAV - List</title>
 </head>
 
 <body>
     <main class="container">
-        <header>
-            <h1>
-                <a class="contrast" href="/dash">
-                    BOOKO-DAV
-                </a>
-            </h1>
+        <header class="container">
             <nav>
+                <ul class="contrast">
+                    <li><strong>BOOKO-DAV</strong></li>
+                </ul>
                 <ul>
-                    <li><a href="/dash">Home</a></li>
-                    <li><a href="/dash/upload">Upload</a></li>
-                    <li><a href="/dash/list">View Docs</a></li>
-                    <li><a href="/dash/instructions">Instructions</a></li>
+                    <li><a href="/dav">Wiki</a></li>
+                    <li><a href="/dav/upload">Upload</a></li>
+                    <li><a href="/dav/list">View Docs</a></li>
                 </ul>
             </nav>
         </header>
@@ -32,11 +40,11 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>File Name</th>
-                            <th>Size</th>
-                            <th>Last Modified</th>
-                            <th>Download</th>
-                            <th>Delete</th>
+                            <th scope="row">File Name</th>
+                            <th scope="row">Size</th>
+                            <th scope="row">Last Modified</th>
+                            <th scope="row">Download</th>
+                            <th scope="row">Delete</th>
                         </tr>
                     </thead>
                     <tbody id="fileList">
@@ -119,7 +127,23 @@
             // Load the file list when the page loads
             window.onload = loadFileList;
         </script>
+        <footer class="footer">
+            <span>
+                <span id="year"></span> &copy; Joshua Rodrigues
+
+            </span>
+            <a href="https://html5.validator.nu/?doc=https%3A%2F%2Fbookodav.joshuarodrigues.dev">
+                <img loading="lazy" class="w3c"
+                    src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
+                    alt="HTML5 Valid">
+            </a>
+        </footer>
     </main>
+    <script>
+        const yearElement = document.querySelector("#year")
+        const year = new Date().getFullYear()
+        yearElement.innerHTML = year
+    </script>
 </body>
 
 </html>

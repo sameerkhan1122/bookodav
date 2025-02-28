@@ -1,137 +1,59 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark" >
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css" />
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
+    <style>
+        .footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+    
+        .w3c {
+          width: 64px;
+        }
+      </style>
     <title>BOOKO-DAV - Instructions</title>
 </head>
 
 <body>
     <main class="container">
-        <header>
-            <h1>
-                <a class="contrast" href="/dash">
-                    BOOKO-DAV
-                </a>
-            </h1>
+        <header class="container">
             <nav>
+                <ul class="contrast">
+                    <li><strong>BOOKO-DAV</strong></li>
+                </ul>
                 <ul>
-                    <li><a href="/dash">Home</a></li>
-                    <li><a href="/dash/upload">Upload</a></li>
-                    <li><a href="/dash/list">View Docs</a></li>
-                    <li><a href="/dash/instructions">Instructions</a></li>
+                    <li><a href="/dav">Wiki</a></li>
+                    <li><a href="/dav/upload">Upload</a></li>
+                    <li><a href="/dav/list">View Docs</a></li>
                 </ul>
             </nav>
         </header>
         <section>
-            <h2>Instructions</h2>
-            <section>
-                <h3>Step-by-step guide for using BOOKO-DAV...</h3>
-                <p>
-                    This is a storage space designed primarily to transfer ebooks to ereaders like KOReader that support
-                    webdav interface.
-                    The tech used here is R2 storage from Cloudflare and Workers from Cloudflare. While R2 and Workers
-                    aren't strictly free of cost,
-                    Cloudflare gives a very generous free tier. The pricing is explained in the <a
-                        href="#pricing">Pricing</a> section.
-                </p>
-            </section>
-            <section>
-                <h3>Set up</h3>
-                <p>
-                   Head on to the repo
-                </p>
-            </section>
-            <section id="pricing">
-                <h3>Pricing</h3>
-                <p>
-                    BOOKO-DAV uses Cloudflare R2 and Workers, which offer a <strong>generous free tier</strong> and low
-                    costs for additional usage. Here's a breakdown of the pricing:
-                </p>
-                <div class="overflow-auto">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Feature</th>
-                                <th>Free Tier</th>
-                                <th>Additional Usage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Storage</strong></td>
-                                <td>10 GB</td>
-                                <td>$0.015 per GB/month</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Uploads</strong></td>
-                                <td>1 million uploads/month</td>
-                                <td>$0.36 per million uploads</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Downloads</strong></td>
-                                <td>10 million downloads/month</td>
-                                <td>$0.09 per million downloads</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Data Transfer (Downloading Files)</strong></td>
-                                <td>Unlimited (free)</td>
-                                <td>Free</td>
-                            </tr>
-                            <tr>
-                                <td><strong>App Requests</strong></td>
-                                <td>100,000 requests/day</td>
-                                <td>$0.15 per million requests</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-                <p>
-                    <strong>What do these terms mean?</strong>
-                <ul>
-                    <li>
-                        <strong>Uploads</strong>: Every time you upload a file (e.g., a book or document), it counts as
-                        one upload. The free tier allows up to 1 million uploads per month.
-                    </li>
-                    <li>
-                        <strong>Downloads</strong>: Every time you download a file, it counts as one download. The free
-                        tier allows up to 10 million downloads per month.
-                        <small>(Note: This counts the number of times you download a file, not the size of the
-                            file.)</small>
-                    </li>
-                    <li>
-                        <strong>Data Transfer (Downloading Files)</strong>: The amount of data you download (e.g., the
-                        total size of all files) is completely free, no matter how much you use.
-                        <small>(Note: This refers to the total data downloaded, not the number of downloads.)</small>
-                    </li>
-                    <li>
-                        <strong>App Requests</strong>: Every time the app checks for files or performs an action (e.g.,
-                        listing files), it counts as one request. The free tier allows up to 100,000 requests per day.
-                    </li>
-                </ul>
-                </p>
-                <p>
-                    <strong>Example Costs:</strong>
-                <ul>
-                    <li>Storing 100 GB: <strong>$1.50/month</strong>.</li>
-                    <li>Uploading 10,000 files: <strong>$0.0036/month</strong>.</li>
-                    <li>Downloading 10,000 files: <strong>$0.0009/month</strong>.</li>
-                </ul>
-                </p>
-                <p>
-                    For most users, the free tier is more than enough. You can monitor your usage in the <a
-                        href="https://dash.cloudflare.com" target="_blank">Cloudflare Dashboard</a>.
-                </p>
-            </section>
+            <h2>Welcome</h2>
         </section>
+        <footer class="footer">
+            <span>
+                <span id="year"></span> &copy; Joshua Rodrigues
+
+            </span>
+            <a href="https://html5.validator.nu/?doc=https%3A%2F%2Fbookodav.joshuarodrigues.dev">
+                <img loading="lazy" class="w3c"
+                    src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
+                    alt="HTML5 Valid">
+            </a>
+        </footer>
     </main>
-    <footer>
-        &copy; Joshua Rodrigues
-    </footer>
+    <script>
+        const yearElement = document.querySelector("#year")
+        const year = new Date().getFullYear()
+        yearElement.innerHTML = year
+    </script>
 </body>
 
 </html>

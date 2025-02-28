@@ -17,11 +17,11 @@ function handleUiRouting(path) {
 	switch (path) {
 		case "/":
 			return html
-		case "/dash/upload":
+		case "/dav/upload":
 			return upload
-		case "/dash/list":
+		case "/dav/list":
 			return list
-		case "/dash/instructions":
+		case "/dav":
 			return instructions;
 		default:
 			return notfoundpage;
@@ -78,7 +78,7 @@ export default {
 
 		// dashboard
 
-		if (request.method === "GET" && path.includes("/dash")) {
+		if (request.method === "GET" && path.includes("/dav")) {
 			return new Response(handleUiRouting(path), {
 				headers: {
 					"Content-Type": "text/html",
