@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,16 +8,14 @@
   <meta name="description" content="A self-hosted WebDav server to transfer books between koreader and other clients.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
   <style>
-    footer {
+    .footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
 
-      a {
-        img {
-          width: 64px;
-        }
-      }
+    .w3c {
+      width: 64px;
     }
   </style>
   <title>BOOKO-DAV</title>
@@ -45,7 +43,8 @@
       </h3>
       <p>
         booko-dav is a play on "books",
-        <a href="https://koreader.rocks/" target="_blank">"koreader"</a>  and <a href="https://en.wikipedia.org/wiki/WebDAV"> "WebDAV"</a>.
+        <a href="https://koreader.rocks/" target="_blank">"koreader"</a> and <a
+          href="https://en.wikipedia.org/wiki/WebDAV"> "WebDAV"</a>.
       </p>
       <p>
         It is primarily designed to be a WebDAV to transfer and store books
@@ -79,9 +78,22 @@
       <h3>
         How to this ?
       </h3>
-      <p>
 
-      </p>
+      <h4>
+        Requirements
+      </h4>
+      <ol>
+        <li>
+          cloudflare account
+        </li>
+        <li>
+          github account
+        </li>
+        <li>
+          credit card
+        </li>
+      </ol>
+
 
     </article>
     <article>
@@ -118,14 +130,15 @@
       </ol>
     </article>
 
-    <footer>
+    <footer class="footer">
       <span>
         <span id="year"></span> &copy; Joshua Rodrigues
 
       </span>
       <a href="https://html5.validator.nu/?doc=https%3A%2F%2Fbookodav.joshuarodrigues.dev">
-        <img src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
-          alt="HTML5 Valid" />
+        <img loading="lazy" class="w3c"
+          src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
+          alt="HTML5 Valid">
       </a>
     </footer>
   </main>
