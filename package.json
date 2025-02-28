@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy src/index.js",
-		"build":"wrangler build src/index.js",
+		"deploy": "wrangler deploy",
+		"build":"wrangler build",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
 		"test": "vitest"
