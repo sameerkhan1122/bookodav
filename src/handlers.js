@@ -69,6 +69,7 @@ export async function handleGetFile(request, env) {
     if(path === '/'){
         path = '/dav'
         return new Response(handleUiRouting(path), {
+            status:301,
             headers: {
                 "Content-Type": "text/html",
                 "Cache-Control": "public, max-age=604800"
