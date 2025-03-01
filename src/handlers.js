@@ -191,3 +191,18 @@ export async function handleFileList(request, env, ctx) {
     ctx.waitUntil(cache.put(cacheKey, response.clone()));
     return response;
 }
+
+export async function dumpCache(request, env, ctx){
+    const url = new URL(request.url);
+    try {
+        const listingUrl = new URL('/', url.origin).toString();
+        const cache = caches.default;
+        const cacheKey = new Request(listingUrl, { cf: { cacheTtl: 604800 } });
+        ctx.waitUntil(cache.delete(cacheKey));
+        return new Response('cache deleted successfully', { status: 200 });
+    } catch (error) {
+        console.log("error",error);
+        
+        return new Response('Failed to delete cache', { status: 500 });
+    }
+}

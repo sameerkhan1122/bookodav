@@ -7,6 +7,13 @@
     <meta name="color-scheme" content="light dark">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
     <style>
+
+        .dump-cache{
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+
         .footer {
           display: flex;
           align-items: center;
@@ -36,6 +43,9 @@
         </header>
         <section>
             <h2>File List</h2>
+            <div class="dump-cache" >
+                <button class="outline" type="button" onclick="dumpCache()" >Dump cache</button>
+            </div>
             <div class="overflow-auto">
                 <table>
                     <thead>
@@ -107,6 +117,21 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
 
+            async function dumpCache(){
+                if (confirm('Are you sure you want to delete cache?')) {
+                    try {
+                        const response = await fetch('/dumpcache', { method: 'GET' });
+                        if (response.ok) {
+                            alert('cache deleted successfully!');
+                            loadFileList(); // Refresh the file list
+                        } else {
+                            alert('Failed to delete cache: ' + response.statusText);
+                        }
+                    } catch (error) {
+                        alert('Error deleting cache: ' + error.message);
+                    }
+                }
+            }
             // Delete a file
             async function deleteFile(filePath) {
                 if (confirm('Are you sure you want to delete this file?')) {
