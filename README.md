@@ -38,9 +38,7 @@ Full license text: [LICENSE](LICENSE)
 2. Deploy worker with required environment variables:  
    - `USERNAME`: Authentication username  
    - `PASSWORD`: Authentication password  
-3. Access endpoints:  
-   - WebDAV root: `/dav`  
-   - Web interface: `/upload` and `/list`  
+
 
 ## Integration
 
