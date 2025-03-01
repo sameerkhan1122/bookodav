@@ -1,244 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" >
+		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<meta name="color-scheme" content="light dark" >
+		<meta name="description" content="A self-hosted WebDAV server to transfer books between KOReader and other clients." >
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css" >
+		<style>
+			.footer {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			 .w3c {
+				width: 64px;
+			}
+		</style>
+		<title>Booko-DAV</title>
+	</head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <meta name="description" content="A self-hosted WebDav server to transfer books between koreader and other clients.">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yohns/picocss@2.2.10/css/pico.min.css">
-  <style>
-    .footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+	<body>
+		<header class="container">
+			<nav>
+				<ul class="contrast">
+					<li><strong>Booko-DAV</strong></li>
+				</ul>
+				<ul>
+					<li>
+						<small>
+							<a href="https://joshuarodrigues.dev">joshuarodrigues.dev</a>
+						</small>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<main class="container">
+			<article>
+				<h3>What is this?</h3>
+				<p>
+					Booko-DAV is a play on "books",
+					<a href="https://koreader.rocks/" target="_blank">KOReader</a> and <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a>.
+				</p>
+				<p>
+					It is primarily designed to be a WebDAV server to transfer and store books between your PC, phone, and e-reader (in my case a
+					jailbroken Kindle). It is self-hostable and <strong>mostly free</strong> <em>(10GB to be exact)</em>.
+					<a href="#pricing">See Pricing</a>.
+				</p>
+			</article>
 
-    .w3c {
-      width: 64px;
-    }
-  </style>
-  <title>BOOKO-DAV</title>
-</head>
+			<article>
+				<h3>Why is this?</h3>
+				<p>
+					For fun. There are more WebDAV services out there, but I wanted to create my own version specifically geared towards the ebook
+					community, with easy deployment and low cost.
+				</p>
+			</article>
+			<article>
+				<h3>How to use this?</h3>
+				<h4>Requirements: A Cloudflare account, a GitHub account, a mobile device or PC, and a credit card.</h4>
+				<p>
+					<em>* Note: All links below open in new tabs for convenience *</em>
+				</p>
+				<ol>
+					<li>
+						<h5>Set Up Cloudflare Account</h5>
+						<ul>
+							<li>
+								Go to <a href="https://dash.cloudflare.com/login" target="_blank">Cloudflare Dashboard</a> and create an account (Google
+								Sign-In available). If you have an account, log in.
+							</li>
+							<li>In your dashboard sidebar, go to <strong>R2 Object Storage</strong>. Complete billing details and submit.</li>
+							<li>Under R2 Object Storage, click <strong>+ Create Bucket</strong></li>
+							<li>
+								<strong>Name your bucket <u>bookodav</u></strong> (case-sensitive)
+							</li>
+							<li>Keep default options and create bucket.</li>
+							<li>Go to <a target="_blank" href="https://dash.cloudflare.com/profile/api-tokens">API Tokens</a> via profile menu.</li>
+							<li>
+								Click <strong><u>Create Token</u></strong> and select <strong>Edit Cloudflare Workers</strong> template.
+							</li>
+							<li>Select your account in dropdown under Account Resources and All Zones under Zone Resources.</li>
+							<li>Create token and save it. Save your Account ID from dashboard URL (https://dash.cloudflare.com/{AccountId}/home).</li>
+						</ul>
+					</li>
+					<li>
+						<h5>GitHub Account</h5>
+						<ul>
+							<li>Create/login to <a target="_blank" href="https://github.com/">GitHub</a></li>
+							<li>Visit <a target="_blank" href="https://github.com/Joshuajrodrigues/bookodav">repository</a></li>
+							<li>Click "Deploy with Workers" button.</li>
+							<li>Authorize Workers and connect using your Account ID and API Token.</li>
+							<li>Fork repository, enable workflows, and deploy. If needed, manually trigger deployment via Actions tab.</li>
+						</ul>
+					</li>
+					<li>
+						<h5>Access</h5>
+						<ul>
+							<li>In Cloudflare Dashboard, go to Compute → Workers → <b>bookodav-worker</b>.</li>
+							<li>Under Settings → Variables, add username/password and deploy.</li>
+							<li>Find your access URL at workers.dev domain (e.g., bookodav-worker.username.workers.dev/dav).</li>
+						</ul>
+					</li>
+				</ol>
+			</article>
+			<article>
+				<h3>Important Links</h3>
+				<ol>
+					<li>
+						<a target="_blank" href="http://dash.cloudflare.com">Cloudflare Dashboard</a>
+						<p>Monitor storage, requests, and billing. Preferred over built-in docs table.</p>
+					</li>
+					<li id="pricing">
+						<a target="_blank" href="https://developers.cloudflare.com/r2/pricing/">Cloudflare R2 Pricing</a>
+						<p>10GB free storage. Heavy caching reduces bills but may cause minor inconsistencies.</p>
+					</li>
+					<li>
+						<a target="_blank" href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare Workers Pricing</a>
+						<p>100,000 daily requests included (uploads, downloads, deletes).</p>
+					</li>
+					<li>
+						<p>
+							Booko-DAV uses Cloudflare Workers technology.
+							<a target="_blank" href="https://developers.cloudflare.com/workers/reference/how-workers-works/">
+								Learn more about Workers.
+							</a>
+						</p>
+					</li>
+				</ol>
+			</article>
 
-<body>
-  <header class="container">
-    <nav>
-      <ul class="contrast">
-        <li><strong>BOOKO-DAV</strong></li>
-      </ul>
-      <ul>
-        <li>
-          <small>
-            <a href="https://joshuarodrigues.dev">joshuarodrigues.dev</a>
-          </small>
-        </li>
-      </ul>
-    </nav>
-  </header>
-  <main class="container">
-    <article>
-      <h3>
-        What is this ?
-      </h3>
-      <p>
-        booko-dav is a play on "books",
-        <a href="https://koreader.rocks/" target="_blank">"koreader"</a> and <a
-          href="https://en.wikipedia.org/wiki/WebDAV"> "WebDAV"</a>.
-      </p>
-      <p>
-        It is primarily designed to be a WebDAV to transfer and store books
-        between your pc, phone, and ereader. (in my case a jailbroken kindle). It is selfhostable and <strong> MOSTLY
-          FREE</strong>
-        <em>(10GB to be exact)</em>. <a href="">See Pricing</a>.
-      </p>
-      <p>
-        Bookodav is a self hostable WebDAV server. It uses cloudflare workers to archive this,
-        <a target="_blank" href="https://developers.cloudflare.com/workers/reference/how-workers-works/"> its a pretty
-          cool tech if
-          you
-          want to read about it.</a>
-      </p>
-
-    </article>
-
-    <article>
-
-      <h3>
-        Why is this ?
-      </h3>
-      <p>
-        For fun, there are more WebDAVs out there, I just wanted to add my own version, I also wanted this geared to
-        the ebook community, and to be easy to deploy and cheap to use.
-      </p>
-
-    </article>
-    <article>
-      <h3>
-        How to this ?
-      </h3>
-      <h4>
-        Requirements =&gt; a cloudflare account, a github account, a mobile or pc and a credit card.
-      </h4>
-      <p>
-        <em>* Note all the links below will open in a new tab for convinience *</em>
-      </p>
-      <ol>
-        <li>
-          <h5>
-            set up cloudflare account
-          </h5>
-          <ul>
-            <li>
-              go to <a href="https://dash.cloudflare.com/login" target="_blank">cloudflare dash</a> and make an account,
-              you can use google sign in too.
-              If you already have an account, login.
-            </li>
-            <li>
-              next in you dashboard in the sidebar, go to <strong>R2 Object Storage</strong> . Fill in your billing details and submit.
-            </li>
-            <li>
-             once done under the same R2 Object Storage on the right hand side click on <strong>+ Create Bucket</strong>
-            </li>
-            <li>
-              <strong>name your bucket <u> bookodav</u> </strong> (case sensitive)
-            </li>
-            <li>
-              leave the other options as default and click create bucket. Congratulations you have a storage system !
-            </li>
-            <li>
-              Now in the top right corner head over to profile and then api tokens, or just click this link
-              <a target="_blank" href="https://dash.cloudflare.com/profile/api-tokens">set up profile apis</a>
-            </li>
-            <li>
-              click on <strong><u>Create Token</u></strong> and select Use Template near <strong>Edit Cloudflare
-                Workers</strong>.
-            </li>
-            <li>
-              This will take you to a new page, leave everything unchanged. Just select your account in the drop down
-              for Account Resources and All Zones under Zone Resources
-            </li>
-            <li>
-              Click continue to summary. and then Create token. This will create a token which you need to copy and save
-              for now.
-            </li>
-            <li>
-              Back on you <a href="https://dash.cloudflare.com/login" target="_blank">cloudflare dash</a> in the url you will find your account id
-              https://dash.cloudflare.com/{AccountId}/home save this too.
-            </li>
-          </ul>
-        </li>
-        <li>
-          <h5>
-            github account
-          </h5>
-          <ul>
-            <li>
-              create or login to your <a target="_blank" href="https://github.com/">github account</a>
-            </li>
-            <li> Once logged in
-              <a target="_blank" href="https://github.com/Joshuajrodrigues/bookodav">
-                head on to my github
-              </a>
-            </li>
-            <li>
-              Click on the deploy with workers button.
-            </li>
-            <li>
-              This will open up the deploy interface, click on Authorize Workers.
-            </li>
-            <li>
-             Click on I have an account
-            </li>
-            <li>
-              Paste in your Account ID and API Token from earlier. And say connect account
-            </li>
-            <li>
-              Fork repository and then click on enable workflow. If prompted, click on I understand my workflows, go ahead and enable them.
-            </li>
-            <li>
-              Last step, with work flows enabled, click on deploy. If everything went well, this should trigger a auto deploy.
-            </li>
-            <li>
-              If not, head on the actions tab of your bookodav github repo, on the left hand side, click on Deploy, and then on the right Run Workflow -&gt; Run Workflow
-            </li>
-          </ul>
-        </li>
-        <li>
-          <h5>Access</h5>
-          <ul>
-            <li>
-              Back on your <a href="https://dash.cloudflare.com/login" target="_blank">cloudflare dash</a> Go to Compute in the sidebar.
-            </li>
-            <li>
-              You'll find <b>bookodav-worker</b> already created for you.
-            </li>
-            <li>
-              Click on it and go to settings, under Variables and Secrets add your password and username value. and click deploy.
-            </li>
-            <li>
-              Under Domains &amp; Routes look for "workers.dev" this is your access url
-            </li>
-            <li>
-              Go to "bookodav-worker.yourusernamemaybe.workers.dev/dav". When you upload or go to view docs tab, you will be asked to enter your password and username.
-            </li>
-          </ul>
-        </li>
-      </ol>
-
-
-    </article>
-    <article>
-      <h3>
-        Important links
-      </h3>
-      <ol>
-
-
-        <li>
-          <a target="_blank" href="http://dash.cloudflare.com">Cloudflare Dashboard</a>
-          <p>Check it whenever you can, monitor your stored size, requests, payments etc.</p>
-          <p>Also prefer using it over this sites view docs table, view docs is provided as a convinience.</p>
-        </li>
-        <li>
-          <a target="_blank" href="https://developers.cloudflare.com/r2/pricing/">Cloudflare r2 pricing</a>
-          <p>R2 is the storage where everying thing you send gets stored. YOU GET ONLY 10GB FREE</p>
-          <p>Bookodav does heavy caching in order to mitigate bills. Every list call on your device is cached for a
-            week,
-            unless you upload a new file or delete a file.</p>
-          <p>This can sometimes cause inconsistencies, but I find it very minimal</p>
-          <p>Do not that r2 on its own is very cheap, and even without the cache it is very unlikly you will exhaust it
-            with just ebooks</p>
-        </li>
-        <li>
-          <a target="_blank" href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare workers
-            pricing</a>
-          <p>Workers are essential the computers that go back and forth from your database and devide</p>
-          <p>These are also quire cheap with 100,000 per day, so you fet to make 100,000 requests per day, upload
-            download
-            delete and view all count as requets</p>
-          <p>Again very unlikly you will exhaust this single handedly</p>
-        </li>
-      </ol>
-    </article>
-
-    <footer class="footer">
-      <span>
-        <span id="year"></span> &copy; Joshua Rodrigues
-
-      </span>
-      <a href="https://html5.validator.nu/?doc=https%3A%2F%2Fbookodav.joshuarodrigues.dev">
-        <img loading="lazy" class="w3c"
-          src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
-          alt="HTML5 Valid">
-      </a>
-    </footer>
-  </main>
-  <script>
-    const yearElement = document.querySelector("#year")
-    const year = new Date().getFullYear()
-    yearElement.innerHTML = year
-  </script>
-</body>
-
+			<footer class="footer">
+				<span> <span id="year"></span> © Joshua Rodrigues </span>
+				<a href="https://html5.validator.nu/?doc=https%3A%2F%2Fbookodav.joshuarodrigues.dev">
+					<img
+						loading="lazy"
+						class="w3c"
+						src="https://github.com/bradleytaunt/html5-valid-badge/blob/master/html5-validator-badge-blue.png?raw=true"
+						alt="HTML5 Valid"
+					>
+				</a>
+			</footer>
+		</main>
+		<script>
+			document.querySelector('#year').textContent = new Date().getFullYear();
+		</script>
+	</body>
 </html>
