@@ -13,9 +13,10 @@
 - Cross-platform WebDAV client support  
 
 ## Dashboard
-![Screenshot 2025-03-01 at 14-57-13 BOOKO-DAV - Instructions](https://github.com/user-attachments/assets/4d52b438-2796-48be-b9a9-a2de587716ca)
-![Screenshot 2025-03-01 at 14-57-25 BOOKO-DAV - Upload](https://github.com/user-attachments/assets/b6c4d827-eb6e-4b9a-b45c-e006069badef)
-![Screenshot 2025-03-01 at 14-57-34 BOOKO-DAV - List](https://github.com/user-attachments/assets/86c602b9-1122-436b-832d-c202e0a169d9)
+![Screenshot 2025-03-01 at 15-01-01 BOOKO-DAV - Instructions](https://github.com/user-attachments/assets/92c9f242-6e8a-4236-b9a0-45b1a77cc3b6)
+![Screenshot 2025-03-01 at 15-01-17 BOOKO-DAV - Upload](https://github.com/user-attachments/assets/5f02ea04-4d8b-4d92-bde3-6387acb16209)
+![Screenshot 2025-03-01 at 15-01-30 BOOKO-DAV - List](https://github.com/user-attachments/assets/18288766-1395-4851-9bb5-c7d516160959)
+
 
 
 ## Implementation Overview
