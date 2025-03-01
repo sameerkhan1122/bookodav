@@ -51,7 +51,6 @@ WebDAV:
 |-----------------|-----------------|--------------------|
 | R2 Storage      | 10GB            | $0.015/GB-month    |
 | Requests        | 100,000/day     | $0.15/million      |
-| Data Transfer   | 1GB/day         | $0.09/GB           |
 
 ## Development
 
