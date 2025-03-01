@@ -12,6 +12,10 @@
 - Serverless architecture with minimal maintenance  
 - Cross-platform WebDAV client support  
 
+## Dashboard
+![Screenshot 2025-03-01 at 14-57-13 BOOKO-DAV - Instructions](https://github.com/user-attachments/assets/4d52b438-2796-48be-b9a9-a2de587716ca)
+![Screenshot 2025-03-01 at 14-57-25 BOOKO-DAV - Upload](https://github.com/user-attachments/assets/b6c4d827-eb6e-4b9a-b45c-e006069badef)
+![Screenshot 2025-03-01 at 14-57-34 BOOKO-DAV - List](https://github.com/user-attachments/assets/86c602b9-1122-436b-832d-c202e0a169d9)
 
 
 ## Implementation Overview
