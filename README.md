@@ -12,16 +12,7 @@
 - Serverless architecture with minimal maintenance  
 - Cross-platform WebDAV client support  
 
-## License
 
-GNU General Public License v3.0 (GPL-3.0)
-
-This means:  
-- You may use, modify, and distribute this software  
-- Any derivative work must be open source under same license  
-- Commercial use requires source code availability  
-
-Full license text: [LICENSE](LICENSE)
 
 ## Implementation Overview
 
@@ -35,7 +26,7 @@ Full license text: [LICENSE](LICENSE)
 ## Setup
 
 1. Create Cloudflare R2 bucket named `bookodav`  
-2. Deploy worker with required environment variables:  
+2. Deploy worker bookodav-worker with required environment variables:  
    - `USERNAME`: Authentication username  
    - `PASSWORD`: Authentication password  
 
@@ -50,6 +41,16 @@ WebDAV:
   Username: [your-username]
   Password: [your-password]
 ```
+## License
+
+GNU General Public License v3.0 (GPL-3.0)
+
+This means:  
+- You may use, modify, and distribute this software  
+- Any derivative work must be open source under same license  
+- Commercial use requires source code availability  
+
+Full license text: [LICENSE](LICENSE)
 
 ## Cost Structure (Cloudflare)
 
@@ -61,6 +62,7 @@ WebDAV:
 
 ## Development
 
+Open to contributions and new features.
 Contributions must maintain GPL-3.0 compliance. 
 
 Copyright (c) [year] Joshua Rodrigues - Provided under GNU GPLv3
