@@ -1,11 +1,10 @@
 
-# Booko-DAV - Self-Hosted WebDAV for eBook Management
+# Booko-DAV - Self-Deployable WebDAV for eBook Management
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Joshuajrodrigues/bookodav)
 
 ## Features
-
-- Cloudflare global network implementation  
+ 
 - 10GB free storage tier with R2  
 - Native KOReader WebDAV compatibility  
 - Basic authentication protection  
@@ -46,17 +45,6 @@ WebDAV:
   Username: [your-username]
   Password: [your-password]
 ```
-## License
-
-GNU General Public License v3.0 (GPL-3.0)
-
-This means:  
-- You may use, modify, and distribute this software  
-- Any derivative work must be open source under same license  
-- Commercial use requires source code availability  
-
-Full license text: [LICENSE](LICENSE)
-
 ## Cost Structure (Cloudflare)
 
 | Service         | Free Tier       | Paid Tier          |
@@ -70,4 +58,4 @@ Full license text: [LICENSE](LICENSE)
 Open to contributions and new features.
 Contributions must maintain GPL-3.0 compliance. 
 
-Copyright (c) [year] Joshua Rodrigues - Provided under GNU GPLv3
+
