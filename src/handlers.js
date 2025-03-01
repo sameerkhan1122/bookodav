@@ -37,7 +37,7 @@ export async function handleMultpleUploads(request, env, ctx) {
             const extension = filename.split(".").pop().toLowerCase();
             const contentType = mimeTypes[extension] || mimeTypes.default;
             const data = await file.arrayBuffer();
-            const sanitizedFilename = filename.replace(/[^a-zA-Z0-9\-_.]/g, ""); //Sanitize filenames to prevent path traversal attacks.
+            const sanitizedFilename = filename.replace(/^\/+/, ""); //remove leading slashes
             if (filename.includes("..")) { // Block path traversal
                 return new Response("Invalid path", { status: 400 });
             }
