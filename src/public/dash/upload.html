@@ -134,10 +134,10 @@
 
         for (const file of files) {
           // File type validation
-          const extension = file.name.split('.').pop().toLowerCase();
-          if (!allowedTypes.includes(extension)) {
-            errors.push(`Invalid file type: ${file.name} (${extension})`);
-          }
+        //  const extension = file.name.split('.').pop().toLowerCase();
+         // if (!allowedTypes.includes(extension)) {
+           // errors.push(`Invalid file type: ${file.name} (${extension})`);
+         // }
 
           // File size validation
           if (file.size > MAX_FILE_SIZE) {
