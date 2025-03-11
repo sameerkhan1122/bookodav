@@ -91,8 +91,10 @@
 
                         // Create a table row for each file
                         const row = document.createElement('tr');
+                        console.log("hrefhrefhrefhrefhrefhrefhrefhref",href);
+                        
                         row.innerHTML = `
-                            <td>${href.split('/').pop()}</td>
+                            <td>${decodeURIComponent(href.split('/').pop())}</td>
                             <td>${formatBytes(size)}</td>
                             <td>${new Date(lastModified).toLocaleString()}</td>
                             <td><a href="${href}" download>Download</a></td>

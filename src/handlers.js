@@ -147,7 +147,8 @@ export async function handleFileList(request, env, ctx) {
     console.log("MISS");
     // List objects in R2 with the correct prefix
     const objects = await env.MY_BUCKET.list({ prefix });
-
+    console.log(objects);
+    
     // Generate WebDAV XML response
     const xmlResponse = `
       <D:multistatus xmlns:D="DAV:">
@@ -165,7 +166,7 @@ export async function handleFileList(request, env, ctx) {
             .map(
                 (obj) => `
               <D:response>
-                <D:href>/${obj.key}</D:href>
+                <D:href>/${encodeURIComponent(obj.key)}</D:href>
                 <D:propstat>
                   <D:prop>
                     <D:resourcetype/> <!-- Empty for files -->
