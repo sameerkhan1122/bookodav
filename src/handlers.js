@@ -132,7 +132,7 @@ export async function handleFileList(request, env, ctx) {
     const path = new URL(request.url).pathname;
     const prefix = path === "/" ? "" : path.slice(1); // Handle root path
 
-    const bypassCache = request.headers.get("X-Bypass-Cache") === "true";
+    const bypassCache = true //request.headers.get("X-Bypass-Cache") === "true";
     const cache = caches.default;
     const cacheKey = new Request(request.url, { cf: { cacheTtl: 604800 } });
 
