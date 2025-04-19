@@ -186,10 +186,10 @@ export async function handleFileList(request, env, ctx) {
         headers: {
             ...corsHeaders,
             "Content-Type": "application/xml",
-            "Cache-Control": "public, max-age=604800"
+         //   "Cache-Control": "public, max-age=604800"
         },
     });
-    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  //  ctx.waitUntil(cache.put(cacheKey, response.clone()));
     return response;
 }
 
