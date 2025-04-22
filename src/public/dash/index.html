@@ -69,18 +69,6 @@
 								Go to <a href="https://dash.cloudflare.com/login" target="_blank">Cloudflare Dashboard</a> and create an account (Google
 								Sign-In available). If you have an account, log in.
 							</li>
-							<li>In your dashboard sidebar, go to <strong>R2 Object Storage</strong>. Complete billing details and submit.</li>
-							<li>Under R2 Object Storage, click <strong>+ Create Bucket</strong></li>
-							<li>
-								<strong>Name your bucket <u>bookodav</u></strong> (case-sensitive)
-							</li>
-							<li>Keep default options and create bucket.</li>
-							<li>Go to <a target="_blank" href="https://dash.cloudflare.com/profile/api-tokens">API Tokens</a> via profile menu.</li>
-							<li>
-								Click <strong><u>Create Token</u></strong> and select <strong>Edit Cloudflare Workers</strong> template.
-							</li>
-							<li>Select your account in dropdown under Account Resources and All Zones under Zone Resources.</li>
-							<li>Create token and save it. Save your Account ID from dashboard URL (https://dash.cloudflare.com/{AccountId}/home).</li>
 						</ul>
 					</li>
 					<li>
@@ -89,14 +77,16 @@
 							<li>Create/login to <a target="_blank" href="https://github.com/">GitHub</a></li>
 							<li>Visit <a target="_blank" href="https://github.com/Joshuajrodrigues/bookodav">repository</a></li>
 							<li>Click "Deploy with Workers" button.</li>
-							<li>Authorize Workers and connect using your Account ID and API Token.</li>
-							<li>Fork repository, enable workflows, and deploy. If needed, manually trigger deployment via Actions tab.</li>
+							<li>Fill in the Set up your application</li>
+							<li>Configure repository to your github</li>
+							<li>Create R2 Bucket. Name it ! Location hint can be optional, closest to where you live</li>
+							<li>Create and deploy</li>
 						</ul>
 					</li>
 					<li>
 						<h5>Access</h5>
 						<ul>
-							<li>In Cloudflare Dashboard, go to Compute → Workers → <b>bookodav-worker</b>.</li>
+							<li>In Cloudflare Dashboard, go to Compute → Workers → <b>{Click on the worker name}</b>.</li>
 							<li>Under Settings → Variables, add username/password and deploy.</li>
 							<li>Find your access URL at workers.dev domain (e.g., bookodav-worker.username.workers.dev/dav).</li>
 						</ul>
