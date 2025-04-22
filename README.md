@@ -1,6 +1,9 @@
 
 # Booko-DAV - Self-Deployable WebDAV for eBook Management
 
+## How to Setup
+
+https://bookodav.joshuarodrigues.dev/
 
 ## Features
  
@@ -26,9 +29,6 @@
 └─────────────┘        └──────────────┘        └─────────────┘
 ```
 
-## Setup
-
-![How to use this](https://bookodav.joshuarodrigues.dev)
 
 
 ## Integration
