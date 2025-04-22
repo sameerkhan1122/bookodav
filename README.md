@@ -1,7 +1,6 @@
 
 # Booko-DAV - Self-Deployable WebDAV for eBook Management
 
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Joshuajrodrigues/bookodav)
 
 ## Features
  
@@ -29,10 +28,7 @@
 
 ## Setup
 
-1. Create Cloudflare R2 bucket named `bookodav`  
-2. Deploy worker bookodav-worker with required environment variables:  
-   - `USERNAME`: Authentication username  
-   - `PASSWORD`: Authentication password  
+![How to use this](https://bookodav.joshuarodrigues.dev)
 
 
 ## Integration
